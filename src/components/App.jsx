@@ -23,8 +23,9 @@ class App extends Component {
     const {contacts} = this.state;
 
     // Проверка добавлено ли имя
-    const isNameAdded = contacts.filter(contact => contact.name.toLowerCase().includes(name));
+    const isNameAdded = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
 
+    console.log(isNameAdded)
     if(isNameAdded) {
       alert(`${name} is already in contacts.`);
       return;
