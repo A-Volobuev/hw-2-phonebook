@@ -7,6 +7,8 @@ import { ListContacts } from './ListContacts/ListContacts';
 import { Filter } from './Filter/Filter';
 import {ListTitle} from './App.styled';
 
+const LS_KEY = 'feedback_contacts';
+
 class App extends Component {
   state = { 
     contacts: [
@@ -61,6 +63,23 @@ class App extends Component {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }))
+  }
+
+  // Добавляем контакты в local storage
+  componentDidUpdate(_, prevState) {
+    if(prevState.contacts !== this.state.contacts){
+      localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
+    }
+  };
+
+  // Проверяем есть ли данные в local storage и загружаем их
+  componentDidMount() {
+    // console.log(typeof localStorage.getItem(LS_KEY));
+    const savedContacts = localStorage.getItem(LS_KEY);
+    // console.log(savedContacts)
+    if(savedContacts){
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
   }
 
   render() { 
